@@ -5,6 +5,63 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 <script>
+const exercises = {
+    "id1" : {
+        "muscles" : "chest",
+        "name" : "Barbell Bench Press",
+        "url" : "http://peakfatlossandfitness.com/uploads/3/4/5/0/34504677/51.."
+    },
+    "id10" : {
+        "muscles" : "biceps",
+        "name" : "Barbell Curl",
+        "url" : "http://build-muscle-101.com/wp-content/uploads/2014/12/barbe.."
+    },
+    "id11" : {
+        "muscles" : "biceps",
+        "name" : "Scott Curl Machine",
+        "url" : "http://bodybuilding-wizard.com/wp-content/uploads/2014/07/ma.."
+    },
+    "id12" : {
+    "muscles" : "biceps",
+    "name" : "Dumbbell Concentration Curl",
+    "url" : "http://robustclub.com/wp-content/uploads/2016/08/concentrati.."
+    },
+    "id13" : {
+    "muscles" : "biceps",
+    "name" : "Hight Cable Curls",
+    "url" : "http://www.fitnessandpower.com/wp-content/uploads/2017/02/hi.."
+    },
+    "id14" : {
+    "muscles" : "triceps",
+    "name" : "Bench Dip",
+    "url" : "http://www.exercisegoals.com/images/easier-bench-dip.jpg"
+    },
+    "id15" : {
+    "muscles" : "triceps",
+    "name" : "Triceps Push-Down",
+    "url" : "http://gym-inspiration.com/uploads/images/kpinom-23exercisel.."
+    },
+    "id16" : {
+    "muscles" : "triceps",
+    "name" : "Cable Lying Triceps Extension",
+    "url" : "https://www.jefit.com/images/exercises/800_600/4708.jpg"
+    },
+    "id17" : {
+    "muscles" : "triceps",
+    "name" : "Dumbbell One Arm Triceps Extension",
+    "url" : "https://www.strongfitnessmag.com/wp-content/uploads/2014/06/x.."
+    },
+    "id18" : {
+    "muscles" : "abs",
+    "name" : "Roman Chair",
+    "url" : "https://www.bodycraft.com/media/catalog/product/cache/1/image.."
+    },
+    "id19" : {
+    "muscles" : "abs",
+    "name" : "Crunch",
+    "url" : "https://3i133rqau023qjc1k3txdvr1-wpengine.netdna-ssl.com/wp-c.."
+    }
+}
 
 var convertToF = () => {
     let degrees = document.getElementById('temperature').value;
@@ -14,9 +71,9 @@ var convertToF = () => {
 }
 
 var convertToC = () => {
-    let fahrenheit = document.getElementById('temperature').value;
-    console.log(fahrenheit);
-    let convertedValue = fahrenheit / 2;
+    let degrees = document.getElementById('temperature').value;
+    console.log(degrees);
+    let convertedValue = degrees * 200;
     document.getElementById('answer').innerHTML = convertedValue + ' C';
 }
 
@@ -31,8 +88,9 @@ var addToDo = () => {
     var todoBlock = document.createElement('div');
 
     var completeButton = document.createElement('button');
-    var t = document.createTextNode('Delete To Do');
+    var t = document    .createTextNode('Delete To Do');
     completeButton.appendChild(t);
+    completeButton.className = "delete-button";
     completeButton.onclick = function () {
         completeTodo();
     }
@@ -44,8 +102,54 @@ var addToDo = () => {
 }
 
 var completeTodo = () => {
+    var close = document.getElementsByClassName('delete-button');
+    for (var i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+            var div = this.parentElement;
+            div.style.display = 'none';
+        }
+    }
     console.log('Test');
 }
+
+var showAllExercises = () => {
+    document.getElementById('exercise-wrapper').innerHTML = '';
+    let keys = Object.keys(exercises);
+    console.log(keys);
+    keys.map( exerciseID => {
+        let block = document.createElement('div');
+        block.className = 'exercise-block';
+        let exerciseImage = document.createElement('img');
+        exerciseImage.src = exercises[exerciseID].url;
+        exerciseImage.className = 'exercise-image';
+
+        let exerciseName = document.createTextNode(exercises[exerciseID].name);
+        block.appendChild(exerciseName);
+        block.appendChild(exerciseImage);
+        document.getElementById('exercise-wrapper').appendChild(block);
+    })
+}
+
+var filterExercises = (muscle) => {
+    document.getElementById('exercise-wrapper').innerHTML = '';
+    let keys = Object.keys(exercises);
+    console.log(keys);
+    keys.map( exerciseID => {
+        if (exercises[exerciseID].muscles === muscle) {
+        let block = document.createElement('div');
+        block.className = 'exercise-block';
+        let exerciseImage = document.createElement('img');
+        exerciseImage.src = exercises[exerciseID].url;
+        exerciseImage.className = 'exercise-image';
+
+        let exerciseName = document.createTextNode(exercises[exerciseID].name);
+        block.appendChild(exerciseName);
+        block.appendChild(exerciseImage);
+        document.getElementById('exercise-wrapper').appendChild(block);
+        }
+    })
+}
+
 </script>
 </head>
 
@@ -84,7 +188,12 @@ var completeTodo = () => {
         </div>          
     </section>
     <section>
-                                    
+        <button onclick="showAllExercises()">Show all exercises</button>
+        <button onclick="filterExercises('biceps')">Show all biceps exercises</button>
+        <button onclick="filterExercises('chest')">Show all chest exercises</button>
+        <div id="exercise-wrapper">
+        
+        </div>                      
     </section>
     
 
